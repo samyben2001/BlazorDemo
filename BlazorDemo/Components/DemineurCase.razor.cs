@@ -7,7 +7,7 @@ namespace BlazorDemo.Components
     {
         [Parameter]
         public DemineurCaseInfos? Case { get; set; }
-        [Parameter] 
+        [Parameter]
         public EventCallback<DemineurCaseInfos> OnCaseSelected { get; set; }
 
         private void OnSelect()

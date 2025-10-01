@@ -1,8 +1,9 @@
 ﻿@page "/Demineur"
 
 <h3>Demineur</h3>
-@if (!_isGameOver)
+@if (_isGameOver == null)
 {
+    <p>@_bombeRestantes/@_NB_BOMBES Bombes</p>
     <div class="demineur">
         @foreach (DemineurCaseInfos c in _cases)
         {
@@ -10,9 +11,15 @@
         }
     </div>
 }
+else if (_isGameOver == true)
+{
+    <div class="alert-danger">
+        <p>Vous Avez Perdu!</p>
+    </div>
+}
 else
 {
-    <div>
-        <p>Vous Avez Perdu!</p>
+    <div class="alert-success">
+        <p>Vous Avez Gagné!</p>
     </div>
 }

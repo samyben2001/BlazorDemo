@@ -1,6 +1,7 @@
-﻿@if (Case is not null)
+﻿@using BlazorDemo.Enums
+@if (Case is not null)
 {
-    <div class=@("d-flex justify-content-center align-items-center " + (!Case.IsActive ? "demineurCase" : "demineurCaseOn")) @onclick="OnSelect">
+    <div class=@("d-flex justify-content-center align-items-center " + (!Case.IsActive ? "demineurCase" : (Case.Etat == DemineurEtat.Zero ? "demineurCaseZeroOn" : "demineurCaseOn"))) @onclick="OnSelect">
         @if (Case.IsActive)
         {
             <span>@Case.Etat</span>

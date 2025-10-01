@@ -6,10 +6,16 @@
 
 .demineurCaseOn {
     color: black;
+    background-color: olivedrab;
+    border: 1px solid gray;
+}
+
+.demineurCaseZeroOn {
+    color: black;
     background-color: beige;
     border: 1px solid gray;
 }
 
 .demineurCase:hover {
-    cursor:pointer;
+    cursor: pointer;
 }

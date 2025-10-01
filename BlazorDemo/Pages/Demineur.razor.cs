@@ -8,9 +8,38 @@ namespace BlazorDemo.Pages
         private const int _NB_CASES = 81;
         private const int _NB_BOMBES = 10;
         private List<DemineurCaseInfos> _cases;
-        private bool _isGameOver = false;
+        private bool? _isGameOver = null;
+        private bool _isFirstClick = true;
+        private int _bombeRestantes = 0;
 
         protected override void OnInitialized()
+        {
+            InitializeBoard();
+        }
+
+        private void OnCaseSelected(DemineurCaseInfos selectedCase)
+        {
+            if (_isFirstClick)
+            {
+                _isFirstClick = false;
+                InitializeBombs(selectedCase);
+            }
+
+            if (selectedCase.Etat == DemineurEtat.Bombe)
+            {
+                _isGameOver = true;
+                return;
+            }
+
+            RevealCase(selectedCase);
+
+            if (!_cases.Any(c => c.Etat != DemineurEtat.Bombe && !c.IsActive))
+            {
+                _isGameOver = false;
+            }
+        }
+
+        private void InitializeBoard()
         {
             _cases = new List<DemineurCaseInfos>(_NB_CASES);
             // remplissage du plateau
@@ -21,38 +50,32 @@ namespace BlazorDemo.Pages
                     _cases.Add(new DemineurCaseInfos(i, j, DemineurEtat.Inconnu));
                 }
             }
+        }
 
+
+        private void InitializeBombs(DemineurCaseInfos selectedCase)
+        {
             // placement des bombes de manières aléatoire
             for (int i = 0; i < _NB_BOMBES; i++)
             {
+                Console.WriteLine("assigne bombe");
                 Random rng = new Random();
                 int j = rng.Next(0, _NB_CASES);
-                if (_cases[j].Etat == DemineurEtat.Bombe)
+                if (_cases[j].Etat == DemineurEtat.Bombe || _cases[j] == selectedCase)
                 {
                     i--;
                 }
                 else
                 {
                     _cases[j].Etat = DemineurEtat.Bombe;
+                    _bombeRestantes++;
                 }
             }
-
-        }
-        private void OnCaseSelected(DemineurCaseInfos selectedCase)
-        {
-            if (selectedCase.Etat == DemineurEtat.Bombe)
-            {
-                _isGameOver = true;
-                return;
-            }
-
-            RevealCase(selectedCase);
         }
 
-        private void RevealCase(DemineurCaseInfos selectedCase, bool isExpansion = false)
+        private void RevealCase(DemineurCaseInfos selectedCase)
         {
             IEnumerable<DemineurCaseInfos> caseConnexes = _cases.Where(c => Math.Abs(c.X - selectedCase.X) < 2 && Math.Abs(c.Y - selectedCase.Y) < 2 && c != selectedCase && !c.IsActive);
-            Console.WriteLine(caseConnexes.Count());
 
             int nbBombesConnexes = 0;
             foreach (DemineurCaseInfos caseConnexe in caseConnexes)
@@ -68,12 +91,8 @@ namespace BlazorDemo.Pages
             {
                 foreach (DemineurCaseInfos caseConnexe in caseConnexes)
                 {
-                    if (isExpansion)
-                    {
-                        selectedCase.IsActive = true;
-                    }
                     caseConnexe.IsActive = true;
-                    RevealCase(caseConnexe, true);
+                    RevealCase(caseConnexe);
                 }
             }
         }
