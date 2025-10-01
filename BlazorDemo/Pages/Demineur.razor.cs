@@ -39,6 +39,7 @@ namespace BlazorDemo.Pages
             }
         }
 
+
         private void InitializeBoard()
         {
             _cases = new List<DemineurCaseInfos>(_NB_CASES);
@@ -51,7 +52,6 @@ namespace BlazorDemo.Pages
                 }
             }
         }
-
 
         private void InitializeBombs(DemineurCaseInfos selectedCase)
         {
@@ -75,8 +75,10 @@ namespace BlazorDemo.Pages
 
         private void RevealCase(DemineurCaseInfos selectedCase)
         {
+            // récupération des cases connexes
             IEnumerable<DemineurCaseInfos> caseConnexes = _cases.Where(c => Math.Abs(c.X - selectedCase.X) < 2 && Math.Abs(c.Y - selectedCase.Y) < 2 && c != selectedCase && !c.IsActive);
 
+            // calcul du nombres de bombes connexes
             int nbBombesConnexes = 0;
             foreach (DemineurCaseInfos caseConnexe in caseConnexes)
             {
@@ -87,6 +89,7 @@ namespace BlazorDemo.Pages
             }
             selectedCase.Etat = (DemineurEtat)nbBombesConnexes;
 
+            // révélation des cases connexes en si la case sélectionnée est entourée de 0 bombes
             if (nbBombesConnexes == 0)
             {
                 foreach (DemineurCaseInfos caseConnexe in caseConnexes)
