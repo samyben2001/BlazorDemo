@@ -1,10 +1,17 @@
 ﻿@using BlazorDemo.Enums
 @if (Case is not null)
 {
-    <div class=@("d-flex justify-content-center align-items-center " + SetClass()) @onclick="OnSelect">
+    <div class=@("d-flex justify-content-center align-items-center fw-bold " + SetClass()) @onclick="OnSelect">
         @if (Case.IsActive)
         {
-            <span>@Case.Etat</span>
+            @if (Case.Etat == DemineurEtat.Bombe)
+            {
+                <span>B</span>
+            }
+            else
+            {
+                <span>@((int)Case.Etat)</span>
+            }
         }
     </div>
 }
