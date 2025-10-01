@@ -6,6 +6,7 @@ namespace BlazorDemo.Pages
     public partial class DinoList
     {
         private Dino[]? _dinos;
+        private int? _dinoSelectedId;
 
         protected override async Task OnInitializedAsync()
         {
@@ -20,10 +21,17 @@ namespace BlazorDemo.Pages
         {
             HttpClient client = _factory.CreateClient("api");
             await client.DeleteAsync($"Dino/{dinoId}");
+            _dinos = _dinos.Where(d => d.Id != dinoId).ToArray();
+            if (_dinoSelectedId == dinoId)
+                _dinoSelectedId = null;
         }
-        private void GetDinoDetails()
+        private void GetDinoDetails(int dinoId)
         {
-            throw new NotImplementedException();
+            _dinoSelectedId = dinoId;
+        }
+        private void CloseDetails()
+        {
+            _dinoSelectedId = null;
         }
     }
 }

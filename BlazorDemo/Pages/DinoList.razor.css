@@ -12,3 +12,11 @@
 .dinoRow:nth-child(odd) {
     background-color: beige
 }
+
+.dinoTable{
+    width:60%
+}
+
+.dinoDetails {
+    width: 39%;
+}

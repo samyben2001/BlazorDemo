@@ -9,22 +9,30 @@
 }
 else
 {
-    <div class="w-50 border-info border">
-        <div class="dinoRow">
-            <span class="w-25">Id</span>
-            <span class="w-25">Espece</span>
-            <span class="w-50">Actions</span>
-        </div>
-        @foreach (Dino dino in _dinos)
-        {
+    <div class="d-flex justify-content-between flex-row">
+        <div class="dinoTable border-info border">
             <div class="dinoRow">
-                <span class="w-25">@dino.Id</span>
-                <span class="w-25">@dino.Espece</span>
-                <span class="w-50">
-                    <button class="btn btn-info" @onclick="GetDinoDetails">Détails</button>
-                    <button class="btn btn-danger" @onclick="@(e => DeleteDino(dino.Id))">Supprimer</button>
-                    <button class="btn btn-primary" @onclick="UpdateDino">Modifier</button>
-                </span>
+                <span class="w-25">Id</span>
+                <span class="w-25">Espece</span>
+                <span class="w-50">Actions</span>
+            </div>
+            @foreach (Dino dino in _dinos)
+            {
+                <div class="dinoRow">
+                    <span class="w-25">@dino.Id</span>
+                    <span class="w-25">@dino.Espece</span>
+                    <span class="w-50">
+                        <button class="btn btn-info" @onclick="@(e => GetDinoDetails(dino.Id))">Détails</button>
+                        <button class="btn btn-danger" @onclick="@(e => DeleteDino(dino.Id))">Supprimer</button>
+                        <button class="btn btn-primary" @onclick="UpdateDino">Modifier</button>
+                    </span>
+                </div>
+            }
+        </div>
+        @if (_dinoSelectedId is not null)
+        {
+            <div class="dinoDetails">
+                <DinoDetails dinoId="_dinoSelectedId" CloseDetailsEvent="CloseDetails"/>
             </div>
         }
     </div>

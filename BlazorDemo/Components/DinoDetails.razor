@@ -1,0 +1,17 @@
+﻿@inject IHttpClientFactory _factory
+
+<div class="d-flex flex-column border-info border p-2">
+    <span class="text-danger closeButton align-self-end" @onclick="CloseDetails">X</span>
+    @if (DinoInfos is not null)
+    {
+        <h3 class="border-bottom border-info text-center">@DinoInfos.Espece</h3>
+        <span><span class="fw-bold">Poids: </span>@DinoInfos.Poids Kg</span>
+        <span><span class="fw-bold">Taille: </span>@DinoInfos.Taille Cm</span>
+    }
+    else
+    {
+        <p>Loading ...</p>
+    }
+</div>
+
+
