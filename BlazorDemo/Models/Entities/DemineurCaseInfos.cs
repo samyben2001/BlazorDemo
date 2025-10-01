@@ -8,6 +8,7 @@ namespace BlazorDemo.Models.Entities
         public int Y { get; set; }
         public DemineurEtat Etat { get; set; }
         public bool IsActive { get; set; } = false;
+        public bool IsFlaged { get; set; } = false;
 
         public DemineurCaseInfos(int x, int y, DemineurEtat etat)
         {

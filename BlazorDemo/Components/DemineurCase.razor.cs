@@ -1,5 +1,6 @@
 using BlazorDemo.Models.Entities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorDemo.Components
 {
@@ -10,10 +11,19 @@ namespace BlazorDemo.Components
         [Parameter]
         public EventCallback<DemineurCaseInfos> OnCaseSelected { get; set; }
 
-        private void OnSelect()
+        [Parameter]
+        public EventCallback<DemineurCaseInfos> OnCaseFlaged { get; set; }
+
+        private void OnSelect(MouseEventArgs args)
         {
-            Case!.IsActive = true;
-            OnCaseSelected.InvokeAsync(Case);
+            if (args.AltKey)
+            {
+                OnCaseFlaged.InvokeAsync(Case);
+            }
+            else
+            {
+                OnCaseSelected.InvokeAsync(Case);
+            }
         }
     }
 }

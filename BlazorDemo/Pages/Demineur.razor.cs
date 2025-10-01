@@ -19,23 +19,50 @@ namespace BlazorDemo.Pages
 
         private void OnCaseSelected(DemineurCaseInfos selectedCase)
         {
-            if (_isFirstClick)
+            if (_isGameOver == null)
             {
-                _isFirstClick = false;
-                InitializeBombs(selectedCase);
+                selectedCase.IsActive = true;
+                if (_isFirstClick)
+                {
+                    _isFirstClick = false;
+                    InitializeBombs(selectedCase);
+                }
+
+                if (selectedCase.Etat == DemineurEtat.Bombe)
+                {
+                    _isGameOver = true;
+                    foreach (DemineurCaseInfos c in _cases)
+                    {
+                        RevealEndCase(c);
+                        c.IsActive = true;
+                    }
+                    return;
+                }
+
+                RevealCase(selectedCase);
+
+                if (!_cases.Any(c => c.Etat != DemineurEtat.Bombe && !c.IsActive))
+                {
+                    _isGameOver = false;
+                }
             }
-
-            if (selectedCase.Etat == DemineurEtat.Bombe)
+        }
+        private void OnCaseFlaged(DemineurCaseInfos c)
+        {
+            if (_isGameOver == null)
             {
-                _isGameOver = true;
-                return;
-            }
-
-            RevealCase(selectedCase);
-
-            if (!_cases.Any(c => c.Etat != DemineurEtat.Bombe && !c.IsActive))
-            {
-                _isGameOver = false;
+                if (!_isFirstClick)
+                {
+                    c.IsFlaged = !c.IsFlaged;
+                    if (c.IsFlaged)
+                    {
+                        _bombeRestantes--;
+                    }
+                    else
+                    {
+                        _bombeRestantes++;
+                    }
+                }
             }
         }
 
@@ -58,7 +85,6 @@ namespace BlazorDemo.Pages
             // placement des bombes de manières aléatoire
             for (int i = 0; i < _NB_BOMBES; i++)
             {
-                Console.WriteLine("assigne bombe");
                 Random rng = new Random();
                 int j = rng.Next(0, _NB_CASES);
                 if (_cases[j].Etat == DemineurEtat.Bombe || _cases[j] == selectedCase)
@@ -78,16 +104,7 @@ namespace BlazorDemo.Pages
             // récupération des cases connexes
             IEnumerable<DemineurCaseInfos> caseConnexes = _cases.Where(c => Math.Abs(c.X - selectedCase.X) < 2 && Math.Abs(c.Y - selectedCase.Y) < 2 && c != selectedCase && !c.IsActive);
 
-            // calcul du nombres de bombes connexes
-            int nbBombesConnexes = 0;
-            foreach (DemineurCaseInfos caseConnexe in caseConnexes)
-            {
-                if (caseConnexe.Etat == DemineurEtat.Bombe)
-                {
-                    nbBombesConnexes++;
-                }
-            }
-            selectedCase.Etat = (DemineurEtat)nbBombesConnexes;
+            int nbBombesConnexes = CalculateAdjacentBombs(selectedCase, caseConnexes);
 
             // révélation des cases connexes en si la case sélectionnée est entourée de 0 bombes
             if (nbBombesConnexes == 0)
@@ -98,6 +115,41 @@ namespace BlazorDemo.Pages
                     RevealCase(caseConnexe);
                 }
             }
+        }
+
+        private void RevealEndCase(DemineurCaseInfos selectedCase)
+        {
+            // récupération des cases connexes
+            IEnumerable<DemineurCaseInfos> caseConnexes = _cases.Where(c => Math.Abs(c.X - selectedCase.X) < 2 && Math.Abs(c.Y - selectedCase.Y) < 2 && c != selectedCase);
+            CalculateAdjacentBombs(selectedCase, caseConnexes);
+        }
+
+        private static int CalculateAdjacentBombs(DemineurCaseInfos selectedCase, IEnumerable<DemineurCaseInfos> caseConnexes)
+        {
+            // calcul du nombres de bombes connexes
+            int nbBombesConnexes = 0;
+            foreach (DemineurCaseInfos caseConnexe in caseConnexes)
+            {
+                if (caseConnexe.Etat == DemineurEtat.Bombe)
+                {
+                    nbBombesConnexes++;
+                }
+            }
+
+            if (selectedCase.Etat != DemineurEtat.Bombe)
+            {
+                selectedCase.Etat = (DemineurEtat)nbBombesConnexes;
+            }
+
+            return nbBombesConnexes;
+        }
+
+        private void StartNewGame()
+        {
+            _isGameOver = null;
+            _isFirstClick = true;
+            _bombeRestantes = 0;
+            InitializeBoard();
         }
     }
 }

@@ -4,6 +4,18 @@
     border: 1px solid gray;
 }
 
+.demineurCaseBombOn {
+    color: black;
+    background-color: firebrick;
+    border: 1px solid gray;
+}
+
+.demineurCaseFlaged {
+    color: black;
+    background-color: orangered;
+    border: 1px solid gray;
+}
+
 .demineurCaseOn {
     color: black;
     background-color: olivedrab;
