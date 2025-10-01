@@ -1,0 +1,23 @@
+﻿@page "/Dino"
+@inject IHttpClientFactory _factory
+
+<h3>Dino</h3>
+
+@if (_dinos is null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <div>
+        @foreach (Dino dino in _dinos)
+        {
+            <div>
+                <p>@dino.Id</p>
+                <p>@dino.Espece</p>
+            </div>
+        }
+    </div>
+}
+
+
