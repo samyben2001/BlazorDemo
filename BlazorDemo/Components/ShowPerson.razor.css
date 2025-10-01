@@ -1,0 +1,12 @@
+﻿.showPerson {
+    width:fit-content;
+    padding: 5px;
+    border: 1px solid black
+}
+
+.showPerson:hover {
+    background-color: rgb(128, 128, 128);
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid black
+}

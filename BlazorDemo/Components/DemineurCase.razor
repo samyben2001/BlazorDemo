@@ -1,0 +1,9 @@
+﻿@if (Case is not null)
+{
+    <div class=@("d-flex justify-content-center align-items-center " + (!Case.IsActive ? "demineurCase" : "demineurCaseOn")) @onclick="OnSelect">
+        @if (Case.IsActive)
+        {
+            <span>@Case.Etat</span>
+        }
+    </div>
+}

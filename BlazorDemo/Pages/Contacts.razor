@@ -1,0 +1,22 @@
+﻿@page "/Contacts"
+
+<h3>Contacts</h3>
+
+@foreach (Personne personne in _personnes)
+{
+    <ShowPerson Personne="personne" OnPersonneSelected="OnPersonneSelected"/>
+}
+
+@if(_selectedPersonne is not null)
+{
+    <div>
+        <fieldset>
+            <legend>Détail de la personne @_selectedPersonne.Id</legend>
+            <p>Nom: @_selectedPersonne.Nom</p>
+            <p>Prenom: @_selectedPersonne.Prenom</p>
+            <p>Email: @_selectedPersonne.Email</p>
+            <p>Tel: @_selectedPersonne.Tel</p>
+        </fieldset>
+    </div>
+}
+

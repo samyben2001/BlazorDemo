@@ -1,0 +1,8 @@
+﻿@if(Personne is not null)
+{
+    <div @onclick="OnSelect" class="showPerson mb-3">
+        <p>Id: @Personne.Id</p>
+        <p>Nom: @Personne.Nom</p>
+        <p>Prenom: @Personne.Prenom</p>
+    </div>
+}

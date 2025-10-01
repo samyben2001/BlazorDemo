@@ -1,0 +1,41 @@
+﻿@page "/Pendu"
+
+<PageTitle>Pendu</PageTitle>
+
+<div class="w-75">
+    <h3 class="border-bottom border-danger mb-4 border-2">Jeu du Pendu</h3>
+
+    @if (_messageFin is not null)
+    {
+        <h2>@_messageFin</h2>
+    }
+
+    @if (_motATrouver is null || _messageFin is not null)
+    {
+        <div class="d-flex justify-content-center flex-row">
+            <button @onclick="StartGame" class="btn btn-primary">@(_messageFin is null ? "Démarrer la partie" : "Nouvelle partie")</button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-evenly flex-row">
+            <h2>@_motMasque</h2>
+            <span class="h4">@_errors/@MAX_ERRORS erreur(s)</span>
+        </div>
+
+        <select @onchange="OnLetterSelected" class="form-control text-center" disabled="@(_messageFin is not null)">
+            <option value="" disabled selected>Sélectionner une lettre</option>
+            @foreach (char letter in _letters)
+            {
+                <option value="@letter">@letter</option>
+            }
+        </select>
+
+        @if (_errorMessage is not null)
+        {
+            <p class="text-danger pt-2">@_errorMessage</p>
+        }
+    }
+</div>
+
+

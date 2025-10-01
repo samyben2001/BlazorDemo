@@ -1,0 +1,15 @@
+﻿.demineurCase {
+    color: black;
+    background-color: black;
+    border: 1px solid gray;
+}
+
+.demineurCaseOn {
+    color: black;
+    background-color: beige;
+    border: 1px solid gray;
+}
+
+.demineurCase:hover {
+    cursor:pointer;
+}

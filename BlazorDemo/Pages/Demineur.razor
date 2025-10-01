@@ -1,0 +1,18 @@
+﻿@page "/Demineur"
+
+<h3>Demineur</h3>
+@if (!_isGameOver)
+{
+    <div class="demineur">
+        @foreach (DemineurCaseInfos c in _cases)
+        {
+            <DemineurCase Case="c" OnCaseSelected="OnCaseSelected" />
+        }
+    </div>
+}
+else
+{
+    <div>
+        <p>Vous Avez Perdu!</p>
+    </div>
+}
