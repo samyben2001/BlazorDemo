@@ -1,3 +1,4 @@
+using BlazorDemo.Enums;
 using BlazorDemo.Models.Entities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -23,6 +24,36 @@ namespace BlazorDemo.Components
             else
             {
                 OnCaseSelected.InvokeAsync(Case);
+            }
+        }
+
+        private string SetClass()
+        {
+            if (!Case!.IsActive)
+            {
+                if (!Case.IsFlaged)
+                {
+                    return "demineurCase";
+                }
+                else
+                {
+                    return "demineurCaseFlaged";
+                }
+            }
+            else
+            {
+                if (Case.Etat == DemineurEtat.Zero)
+                {
+                    return "demineurCaseZeroOn";
+                }
+                else if (Case.Etat == DemineurEtat.Bombe)
+                {
+                    return "demineurCaseBombOn";
+                }
+                else
+                {
+                    return "demineurCaseOn";
+                }
             }
         }
     }
