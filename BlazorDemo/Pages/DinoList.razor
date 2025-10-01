@@ -9,12 +9,22 @@
 }
 else
 {
-    <div>
+    <div class="w-50 border-info border">
+        <div class="dinoRow">
+            <span class="w-25">Id</span>
+            <span class="w-25">Espece</span>
+            <span class="w-50">Actions</span>
+        </div>
         @foreach (Dino dino in _dinos)
         {
-            <div>
-                <p>@dino.Id</p>
-                <p>@dino.Espece</p>
+            <div class="dinoRow">
+                <span class="w-25">@dino.Id</span>
+                <span class="w-25">@dino.Espece</span>
+                <span class="w-50">
+                    <button class="btn btn-info" @onclick="GetDinoDetails">Détails</button>
+                    <button class="btn btn-danger" @onclick="@(e => DeleteDino(dino.Id))">Supprimer</button>
+                    <button class="btn btn-primary" @onclick="UpdateDino">Modifier</button>
+                </span>
             </div>
         }
     </div>

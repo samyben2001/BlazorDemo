@@ -1,0 +1,14 @@
+﻿.dinoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px;
+}
+
+.dinoRow:nth-child(1) {
+    font-weight: 700;
+}
+
+.dinoRow:nth-child(odd) {
+    background-color: beige
+}
