@@ -14,6 +14,14 @@ namespace BlazorDemo.Pages
 
         protected override void OnInitialized()
         {
+            StartNewGame();
+        }
+
+        private void StartNewGame()
+        {
+            _isGameOver = null;
+            _isFirstClick = true;
+            _bombeRestantes = 0;
             InitializeBoard();
         }
 
@@ -21,32 +29,36 @@ namespace BlazorDemo.Pages
         {
             if (_isGameOver == null)
             {
-                selectedCase.IsActive = true;
+                // initialise les bombes si premier click de la partie
                 if (_isFirstClick)
                 {
                     _isFirstClick = false;
                     InitializeBombs(selectedCase);
                 }
 
+                // défaite si la case sélectionée est une bombe
                 if (selectedCase.Etat == DemineurEtat.Bombe)
                 {
                     _isGameOver = true;
+                    // révele le plateau complet
                     foreach (DemineurCaseInfos c in _cases)
                     {
                         RevealEndCase(c);
-                        c.IsActive = true;
                     }
                     return;
                 }
 
+                // révèle la case sélectionée
                 RevealCase(selectedCase);
 
+                // victoire si toutes les cases non-bombes ont été révelées
                 if (!_cases.Any(c => c.Etat != DemineurEtat.Bombe && !c.IsActive))
                 {
                     _isGameOver = false;
                 }
             }
         }
+
         private void OnCaseFlaged(DemineurCaseInfos c)
         {
             if (_isGameOver == null)
@@ -66,11 +78,10 @@ namespace BlazorDemo.Pages
             }
         }
 
-
         private void InitializeBoard()
         {
             _cases = new List<DemineurCaseInfos>(_NB_CASES);
-            // remplissage du plateau
+            // remplissage du plateau avec des cases d'un état inconnu
             for (int i = 0; i < Math.Sqrt(_NB_CASES); i++)
             {
                 for (int j = 0; j < Math.Sqrt(_NB_CASES); j++)
@@ -87,6 +98,7 @@ namespace BlazorDemo.Pages
             {
                 Random rng = new Random();
                 int j = rng.Next(0, _NB_CASES);
+                // évite qu'une bombe soit posée plusieurs fois sur la même case ou sur la case sélectionée
                 if (_cases[j].Etat == DemineurEtat.Bombe || _cases[j] == selectedCase)
                 {
                     i--;
@@ -101,6 +113,7 @@ namespace BlazorDemo.Pages
 
         private void RevealCase(DemineurCaseInfos selectedCase)
         {
+            selectedCase.IsActive = true;
             // récupération des cases connexes
             IEnumerable<DemineurCaseInfos> caseConnexes = _cases.Where(c => Math.Abs(c.X - selectedCase.X) < 2 && Math.Abs(c.Y - selectedCase.Y) < 2 && c != selectedCase && !c.IsActive);
 
@@ -119,6 +132,7 @@ namespace BlazorDemo.Pages
 
         private void RevealEndCase(DemineurCaseInfos selectedCase)
         {
+            selectedCase.IsActive = true;
             // récupération des cases connexes
             IEnumerable<DemineurCaseInfos> caseConnexes = _cases.Where(c => Math.Abs(c.X - selectedCase.X) < 2 && Math.Abs(c.Y - selectedCase.Y) < 2 && c != selectedCase);
             CalculateAdjacentBombs(selectedCase, caseConnexes);
@@ -136,20 +150,13 @@ namespace BlazorDemo.Pages
                 }
             }
 
+            // assigne l'état de la bombe en fonction du nombre de bombes adjacentes
             if (selectedCase.Etat != DemineurEtat.Bombe)
             {
                 selectedCase.Etat = (DemineurEtat)nbBombesConnexes;
             }
 
             return nbBombesConnexes;
-        }
-
-        private void StartNewGame()
-        {
-            _isGameOver = null;
-            _isFirstClick = true;
-            _bombeRestantes = 0;
-            InitializeBoard();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@page "/Demineur"
 
-<h3>Demineur</h3>
+<h3 class="border-bottom border-danger w-75 mb-4 border-2">Demineur</h3>
 <div class="d-flex flex-row gap-2">
     <div class="demineur">
         @foreach (DemineurCaseInfos c in _cases)
@@ -15,20 +15,22 @@
 
         @if (_isGameOver != null)
         {
-            @if (_isGameOver == true)
-            {
-                <div class="alert-danger">
-                    <p>Vous Avez Perdu!</p>
-                </div>
-            }
-            else if (_isGameOver == false)
-            {
-                <div class="alert-success">
-                    <p>Vous Avez Gagné!</p>
-                </div>
-            }
+            <div class="mt-4 text-center">
+                @if (_isGameOver == true)
+                {
+                    <div class="alert-danger rounded">
+                        <p class="h4 fw-bold">Vous Avez Perdu!</p>
+                    </div>
+                }
+                else if (_isGameOver == false)
+                {
+                    <div class="alert-success rounded">
+                        <p class="h4 fw-bold">Vous Avez Gagné!</p>
+                    </div>
+                }
 
-            <button class="btn btn-primary" @onclick="StartNewGame">Nouvelle partie</button>
+                <button class="btn btn-primary" @onclick="StartNewGame">Nouvelle partie</button>
+            </div>
         }
     </div>
 </div>
