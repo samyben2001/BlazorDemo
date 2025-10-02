@@ -1,7 +1,10 @@
 ﻿@page "/Dino"
 @inject IHttpClientFactory _factory
+@inject NavigationManager _nav
 
 <h3>Dino</h3>
+
+<button class="btn btn-primary mb-2" @onclick="AddDino">Ajouter un dino</button>
 
 @if (_dinos is null)
 {
@@ -22,9 +25,9 @@ else
                     <span class="w-25">@dino.Id</span>
                     <span class="w-25">@dino.Espece</span>
                     <span class="w-50">
-                        <button class="btn btn-info" @onclick="@(e => GetDinoDetails(dino.Id))">Détails</button>
-                        <button class="btn btn-danger" @onclick="@(e => DeleteDino(dino.Id))">Supprimer</button>
-                        <button class="btn btn-primary" @onclick="UpdateDino">Modifier</button>
+                        <button class="btn btn-info" @onclick="@(() => GetDinoDetails(dino.Id))">Détails</button>
+                        <button class="btn btn-danger" @onclick="@(() => DeleteDino(dino.Id))">Supprimer</button>
+                        <button class="btn btn-primary" @onclick="@(() => UpdateDino(dino.Id))">Modifier</button>
                     </span>
                 </div>
             }

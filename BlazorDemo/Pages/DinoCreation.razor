@@ -1,0 +1,44 @@
+﻿@page "/Dino/Creation/{Id:int?}"
+@inject IHttpClientFactory _factory
+@inject NavigationManager _nav
+
+@if (Dino is not null)
+{
+    <div class="d-flex flex-column p-2">
+        <h3>DinoCreation</h3>
+        <div>
+            <EditForm EditContext="_context" OnValidSubmit="Submit" FormName="DinoCreation">
+                <AntiforgeryToken />
+                <DataAnnotationsValidator />
+                <ValidationSummary Model="Dino" />
+
+                <div>
+                    <label class="form-label">
+                        Espèce:
+                        <InputText @bind-Value="Dino!.Espece" class="form-control" />
+                    </label>
+                    <ValidationMessage For="() => Dino.Espece" />
+                </div>
+
+                <div>
+                    <label class="form-label">
+                        Taille:
+                        <InputNumber @bind-Value="Dino!.Taille" class="form-control" />
+                    </label>
+                    <ValidationMessage For="() => Dino.Taille" />
+                </div>
+
+
+                <div>
+                    <label class="form-label">
+                        Poids:
+                        <InputNumber @bind-Value="Dino!.Poids" class="form-control" />
+                    </label>
+                    <ValidationMessage For="() => Dino.Poids" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">@(Id is null ? "Créer" : "Mettre à jour")</button>
+            </EditForm>
+        </div>
+    </div>
+}

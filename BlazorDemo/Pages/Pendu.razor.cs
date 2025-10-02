@@ -61,6 +61,7 @@ namespace BlazorDemo.Pages
                 _errors++;
                 if (_errors == MAX_ERRORS)
                 {
+                    _motMasque = _motATrouver!;
                     ResetGame($"Perdu! Le mot à trouver était {_motMasque}");
                 }
                 return;
@@ -75,6 +76,7 @@ namespace BlazorDemo.Pages
                 _errors++;
                 if (_errors == MAX_ERRORS)
                 {
+                    _motMasque = _motATrouver!;
                     ResetGame($"Perdu! Le mot à trouver était {_motMasque}");
                 }
                 return;
@@ -92,7 +94,6 @@ namespace BlazorDemo.Pages
                     _motMasque = new string(temp);
                 }
             }
-            Console.WriteLine($"mise à jour du mot masque: {_motMasque}");
 
 
             if (_motMasque == _motATrouver)
@@ -103,7 +104,6 @@ namespace BlazorDemo.Pages
 
         private void ResetGame(string endMessage)
         {
-            _motMasque = _motATrouver!;
             _motATrouver = null;
             _errorMessage = null;
             _errors = 0; 

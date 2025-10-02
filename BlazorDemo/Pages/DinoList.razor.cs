@@ -13,10 +13,17 @@ namespace BlazorDemo.Pages
             HttpClient client = _factory.CreateClient("api");
             _dinos = await client.GetFromJsonAsync<Dino[]>("Dino");
         }
-        private void UpdateDino()
+
+        private void AddDino()
         {
-            throw new NotImplementedException();
+            _nav.NavigateTo("/dino/creation");
         }
+
+        private void UpdateDino(int id)
+        {
+            _nav.NavigateTo($"/dino/creation/{id}");
+        }
+
         private async Task DeleteDino(int dinoId)
         {
             HttpClient client = _factory.CreateClient("api");
@@ -25,10 +32,12 @@ namespace BlazorDemo.Pages
             if (_dinoSelectedId == dinoId)
                 _dinoSelectedId = null;
         }
+
         private void GetDinoDetails(int dinoId)
         {
             _dinoSelectedId = dinoId;
         }
+
         private void CloseDetails()
         {
             _dinoSelectedId = null;

@@ -16,7 +16,6 @@ namespace BlazorDemo.Components
         {
             if (dinoId is not null)
             {
-                Console.WriteLine($"parameter changed => dinoId = {dinoId}");
                 HttpClient client = _factory.CreateClient("api");
                 DinoInfos = await client.GetFromJsonAsync<Dino>($"Dino/{dinoId}");
             }
